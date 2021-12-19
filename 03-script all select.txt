@@ -1,0 +1,62 @@
+--Select básico de todas tabelas
+select * from atende;
+select * from cliente;
+select * from contem;
+select * from fornecedor;
+select * from funcionario;
+select * from hq;
+select * from livro;
+select * from loja;
+select * from outros;
+select * from pedido;
+select * from produto;
+select * from revista;
+select * from telefone_cliente;
+select * from telefone_fornecedor;
+select * from atelefone_funcionario;
+
+
+
+--Select renomeano colunas
+select fornecedor_id as ID, nro_contrato as Contrato, razaosocial_fornecedor as RazãoSocial,
+email_fornecedor as email, endereco_fornecedor as Endereço, cnpj_fornecedor as CNPJ
+from fornecedor;
+
+select cliente_id as ID, cpf_cliente as CPF, nome_cliente as nome, sobrenome_cliente as sobrenome,
+endereco_cliente as Endereço, sexo_cliente as Sexo, email_cliente as email, datanasc_cliente as Nascimento
+from cliente;
+
+
+
+--Select com inner joins
+select * from telefone_cliente tl
+inner join cliente cl
+on tl.cliente_id = cl.cliente_id;
+
+select p.produto_id, p.categoria_produto, p.qtd_estoque, r.nome_revista, r.datapub_revista, 
+f.cnpj_fornecedor, f.razaosocial_fornecedor  from produto p
+inner join revista r
+on p.produto_id = r.produto_id 
+inner join fornecedor f
+on f.fornecedor_id = p.fornecedor_id;
+
+
+
+--Select com agrupamento
+select categoria_produto, AVG(preco_unidade) as Média from produto 
+group by categoria_produto;
+
+select count(cod_pedido) as Quantidade, forma_pagamento from pedido 
+group by forma_pagamento;
+
+
+
+--Select com ordenação
+select p.cod_pedido, p.forma_pagamento, p.datahora_pedido, p.preco_total as Valor_Total from pedido p
+order by p.preco_total desc;
+
+select c.cod_pedido, SUM(p.preco_unidade * c.qtd_produto ) as Valor_Total from produto p
+inner join contem c
+on p.produto_id = c.produto_id
+group by c.cod_pedido
+order by c.cod_pedido

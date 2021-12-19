@@ -1,0 +1,15 @@
+update loja set nome_loja = 'abracadabra'  where loja_id= 2;
+update funcionario set salario = 2000.00  where funcionario_id= 5;
+update telefone_funcionario set telefone_funcionario= '(62) 99584-2252'  where funcionario_id= 3;
+update cliente set email_cliente = 'naotememail@gmail.com'  where cliente_id= 2;
+update telefone_cliente set telefone_cliente = '(88) 95261-7977'  where cliente_id= 5;
+update fornecedor set endereco_fornecedor= 'av. Santos Dummont, rua 333'  where fornecedor_id= 6;
+update telefone_fornecedor set telefone_fornecedor = '(11) 98828-9999'  where fornecedor_id= 2;
+update produto set preco_unidade = 99.90  where produto_id= 1;
+update livro set pags_livro= 336 where produto_id= 7;
+update revista set pags_revista= 46 where produto_id= 23;
+update hq set pags_hq= 46 where produto_id= 3;
+update outros set nome_outros = 'cadeira gamer' where produto_id = 4;
+update pedido set preco_total = 49.90 where cod_pedido = 5;
+update contem set qtd_produto = 23 where cod_pedido = 5;
+update atende set nro_atendimento = 15 where cliente_id = 10;

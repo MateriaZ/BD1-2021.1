@@ -1,0 +1,144 @@
+create table loja(loja_id serial primary key,
+		  cnpj_loja varchar(18),
+		  nome_loja varchar(40),
+		  endereco_loja varchar(60),
+		  email_loja varchar (50),
+		  telefone1_loja varchar(15) not null,
+		  telefone2_loja varchar(15));
+
+
+create table funcionario(funcionario_id serial primary key,
+		  cpf_funcionario varchar(14),
+		  nome_funcionario varchar(20),
+		  sobrenome_funcionario varchar(20),
+		  sexo_funcionario char(1),
+		  endereco_funcionario varchar(60),
+		  datanasc_funcionario date,
+		  salario double precision,
+		  cargo varchar(35),
+		  data_admissao date,
+		  data_demissao date,
+		  loja_id integer references loja(loja_id) on delete cascade,
+		  gerente_id integer references funcionario(funcionario_id) on delete cascade,
+		  check (sexo_funcionario in ('M', 'F')));
+
+
+create table telefone_funcionario (idtelefone_funcionario serial primary key,
+		  telefone_funcionario varchar(15),
+		  funcionario_id integer references funcionario(funcionario_id) on delete cascade);
+
+
+
+create table cliente (cliente_id serial primary key,
+		  cpf_cliente varchar(14),
+		  nome_cliente varchar(20),
+		  sobrenome_cliente varchar(20),
+		  endereco_cliente varchar(60),
+		  sexo_cliente char(1),
+		  email_cliente varchar(50),
+		  datanasc_cliente date,
+		  check (sexo_cliente in ('M', 'F')));
+
+create table telefone_cliente (idtelefone_cliente serial primary key,
+		  telefone_cliente varchar(15),
+		  cliente_id integer references cliente(cliente_id) on delete cascade);
+
+
+		  
+create table fornecedor (fornecedor_id serial primary key,
+		  nro_contrato char(8),
+		  razaosocial_fornecedor varchar(60),
+		  email_fornecedor varchar(80),
+		  endereco_fornecedor varchar(60),
+		  cnpj_fornecedor char(18));
+
+
+create table telefone_fornecedor (idtelefone_fornecedor serial primary key,
+		  telefone_fornecedor varchar(15),
+		  fornecedor_id integer references fornecedor(fornecedor_id) on delete cascade);
+
+
+
+create table produto (produto_id serial primary key,
+		  categoria_produto varchar(7),
+		  qtd_estoque integer,
+		  preco_unidade double precision,
+		  fornecedor_id integer references fornecedor(fornecedor_id) on delete cascade,
+		  check (categoria_produto in ('LIVRO', 'REVISTA', 'HQ', 'OUTROS')));
+
+
+
+
+create table livro (produto_id integer references produto(produto_id) on delete cascade,
+		  isbn_livro varchar(14),
+		  titulo_livro varchar(80),
+		  autor_livro varchar(60),
+		  datapub_livro date,
+		  edicao_livro integer,
+		  volume_livro integer,
+		  pags_livro integer,
+		  editora_revista varchar(40),
+		  descricao_livro varchar (255),
+		  idioma_livro varchar(25),
+  constraint pklivro primary key (produto_id));
+
+
+
+create table revista (produto_id integer references produto(produto_id) on delete cascade,
+		  issn_revista varchar(10),
+		  nome_revista varchar(80),
+		  volume_revista integer,
+		  edicao_revista integer,
+		  datapub_revista date,
+		  pags_revista integer,
+		  editora_revista varchar(40),
+		  idioma_revista varchar(25),
+		  constraint pkrevista primary key (produto_id));
+
+
+create table hq (produto_id integer references produto(produto_id) on delete cascade,
+		  issn_hq varchar(10),
+		  titulo_hq varchar(80),
+		  edicao_hq integer,
+		  volume_hq integer,
+		  datapub_hq date,
+		  pags_hq integer,
+		  idioma_hq varchar(25),
+	  	  constraint pkhq primary key (produto_id));
+
+
+
+create table outros (produto_id integer references produto(produto_id) on delete cascade,
+		  descricao_outros varchar(100),
+		  nome_outros varchar(40),
+		  constraint pkoutros primary key (produto_id));
+
+
+
+create table pedido (cod_pedido serial primary key,
+		  datahora_pedido timestamp,
+		  preco_total double precision,
+		  qtdproduto_total integer,
+		  forma_pagamento varchar(16),
+		  cliente_id integer references cliente(cliente_id) on delete cascade,
+		  check (forma_pagamento in ('DINHEIRO', 'CARTAO DEBITO', 'CARTAO CREDITO', 'PIX')));
+
+
+
+
+
+
+
+
+
+create table contem (cod_pedido integer references pedido(cod_pedido) on delete cascade,
+		  produto_id integer references produto(produto_id) on delete cascade,
+		  qtd_produto integer,
+		  constraint pkcontem primary key (cod_pedido, produto_id));
+
+
+
+create table atende (nro_atendimento integer,
+		  funcionario_id integer references funcionario(funcionario_id) on delete cascade,
+		  cliente_id integer references cliente(cliente_id) on delete cascade,
+		  constraint pkatende primary key (funcionario_id, cliente_id));

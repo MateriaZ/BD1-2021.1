@@ -1,0 +1,15 @@
+delete from loja where loja_id = 1;
+delete from atende where nro_atendimento = 2;
+delete from cliente where cliente_id = 1;
+delete from contem where cod_pedido = 6 and produto_id = 24;
+delete from fornecedor where fornecedor_id = 2;
+delete from funcionario where funcionario_id = 5;
+delete from telefone_funcionario tf where tf.idtelefone_funcionario = 3;
+delete from telefone_fornecedor f where f.idtelefone_fornecedor = 1; 
+delete from telefone_cliente tc where tc.idtelefone_cliente = 5;
+delete from produto where produto_id = 3;
+delete from livro where produto_id = 8;
+delete from revista where produto_id = 26;
+delete from hq where produto_id = 18;
+delete from outros where produto_id = 12;
+delete from pedido where cod_pedido = 3;
